@@ -65,8 +65,7 @@ std::string canonicalization(std::string inputFilePath)
    for (int i = 0; i < inputFilePath.length(); i++)
    {
       std::locale loc;
-      filePath += std::tolower(inputFilePath[i], loc);      
-   }
+      filePath += std::tolower(inputFilePath[i], loc);         }
 
    //Command cd [drive letter]:\filepath\filename.file
    if (filePath[4] == ':')
@@ -94,12 +93,12 @@ std::string canonicalization(std::string inputFilePath)
       std::locale loc;
       
       //add the current working directory 
-      for (int i = 0; i < currentPath.length(); i++)
+      for (int i = 0; i < 3 ; i++) 
       {
          //makes sure the are all in the same case
          path += std::tolower(currentPath[i], loc);
       }
-      path += '\\';
+      //path += '\\';
       //adds the next directory and file
       for (int i = 3; i < filePath.length(); i++)
       {
