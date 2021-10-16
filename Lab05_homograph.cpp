@@ -64,6 +64,7 @@ std::string canonicalization(std::string inputFilePath)
    //changes to lower case
    for (int i = 0; i < inputFilePath.length(); i++)
    {
+      //make sure input is in the same case as directory in windows are not case sensitive
       std::locale loc;
       filePath += std::tolower(inputFilePath[i], loc);         }
 
@@ -95,7 +96,7 @@ std::string canonicalization(std::string inputFilePath)
       //add the current working directory 
       for (int i = 0; i < 3 ; i++) 
       {
-         //makes sure the are all in the same case
+         //makes sure the are all in the same cases because in windows are not case sensitive
          path += std::tolower(currentPath[i], loc);
       }
       //path += '\\';
