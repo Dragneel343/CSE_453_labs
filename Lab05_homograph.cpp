@@ -57,9 +57,16 @@ int main()
 *  and changes it in to a string of a file path. Then out puts the results
 *  
 ************************************************************************/
-std::string canonicalization(std::string filePath)
+std::string canonicalization(std::string inputFilePath)
 {
    std::string path;
+   std::string filePath;
+   //changes to lower case
+   for (int i = 0; i < inputFilePath.length(); i++)
+   {
+      std::locale loc;
+      filePath += std::tolower(inputFilePath[i], loc);      
+   }
 
    //Command cd [drive letter]:\filepath\filename.file
    if (filePath[4] == ':')
@@ -74,8 +81,7 @@ std::string canonicalization(std::string filePath)
       //gets the rest of the path
       for (int i = 6; i < filePath.length(); i++)
       {
-         path += filePath[i];
-         std::cout << filePath[i] << std::endl;
+         path += filePath[i];         
       }
    }
  
