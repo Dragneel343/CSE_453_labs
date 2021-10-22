@@ -21,7 +21,7 @@ using namespace std;
 //Add State attack
 #define attAddState1 "nothing'; INSERT INTO userList (name, passwd) VALUES 'hacker', '1337"
 //Comment attack
-#define attComment1 "hacker';"
+#define attComment1 "hacker'\";--"
 
 string genQuery(string userName, string password);
 string genQueryWeak(string userName, string password);
@@ -36,19 +36,13 @@ void testStrong();
 int main()
 
 {
-   /*string userName;
-   string password;
-   cout << "Enter user name: " << std::endl;
-   getline(cin, userName);
-   cout << "Enter password: " << std::endl;
-   getline(cin, password);*/
    testValid();
    testTauology();
    testUnion();
    testAddState();
    testComment();
    testStrong();
-
+   testWeak();
 
    return 0;
 };
@@ -61,8 +55,40 @@ string genQuery(string userName, string password)
 }
 string genQueryWeak(string userName, string password)
 {
-   return string();
+   unordered_map <char, int> allowed;
+   allowed[';'] = 1; allowed['-'] = 2; allowed['\''] = 3; allowed['\"'] = 4;
+
+   string sanitizedUserName;
+   string sanitizedPassword;
+
+   for (int i = 0; i < userName.length(); i++)
+   {
+      string checkUser = to_string(userName[i]);
+
+      unordered_map<char, int>::const_iterator check = allowed.find(userName[i]);
+
+      if (check == allowed.end())
+      {
+        sanitizedUserName += userName[i];
+      }
+    
+   }
+
+   for (int i = 0; i < password.length(); i++)
+   {
+      string checkUser = to_string(password[i]);
+
+      unordered_map<char, int>::const_iterator check = allowed.find(password[i]);
+
+      if (check == allowed.end())
+      {
+         sanitizedPassword += password[i];
+      }
+
+   }
+   return genQuery(sanitizedUserName, sanitizedPassword);
 }
+
 string genQueryStrong(string userName, string password)
 {
   unordered_map <char, int> allowed;
@@ -79,6 +105,8 @@ string genQueryStrong(string userName, string password)
 
   bool isCorrectUser = false;
   bool isCorrectPassword = false;
+  string sanitizedUserName;
+  string sanitizedPassword;
   string results = "";
   
 
@@ -88,15 +116,11 @@ string genQueryStrong(string userName, string password)
 
      unordered_map<char, int>::const_iterator check = allowed.find(userName[i]);
 
-     if (check == allowed.end())
+     if (check != allowed.end())
      {
-        isCorrectUser = false;
-        break;        
+        sanitizedUserName += userName[i];
      }
-     else
-     {
-        isCorrectUser = true;
-     }
+    
   }
 
   for (int i = 0; i < password.length(); i++)
@@ -105,28 +129,13 @@ string genQueryStrong(string userName, string password)
 
      unordered_map<char, int>::const_iterator check = allowed.find(password[i]);
 
-     if (check == allowed.end())
+     if (check != allowed.end())
      {
-        isCorrectPassword = false;
-        break;
+        sanitizedPassword += password[i];
      }
-     else
-     {
-        isCorrectPassword = true;
-     }
-  }
-
-  if (isCorrectUser == isCorrectPassword)
-  {
-     results = "User is authorized.";
-  }
-  else
-  {
-     results = "The Username or Password you have entered is incorrect.";
-  }
-     
+  }    
     
-   return results;
+   return genQuery(sanitizedUserName, sanitizedPassword);
 }
 
 
@@ -169,6 +178,28 @@ void testComment()
 }
 void testWeak()
 {
+   cout << "t-----Testing Weak Mitigation-----" << endl;
+   cout << "-----Valid Testing-----" << endl;
+   cout << endl;
+   cout << genQueryWeak(chris, chrisPsswd) << endl;
+   cout << endl;
+   cout << "-----Tautology Tests-----" << endl;
+   cout << endl;
+   cout << genQueryWeak(chris, attTautology_1) << endl;
+   cout << endl;
+   cout << "-----Union Tests-----" << endl;
+   cout << endl;
+   cout << genQueryWeak(chris, attUnion1) << endl;
+   cout << endl;
+   cout << "-----Add Statement Tests-----" << endl;
+   cout << endl;
+   cout << genQueryWeak(chris, attAddState1) << endl;
+   cout << endl;
+   cout << "-----Add comment Tests-----" << endl;
+   cout << endl;
+   cout << genQueryWeak(attComment1, chrisPsswd) << endl;
+   cout << endl;
+
 }
 void testStrong()
 {
