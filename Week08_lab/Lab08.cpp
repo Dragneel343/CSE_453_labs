@@ -17,13 +17,19 @@ void arrayVulnerability(int input1, int input2);
 void arrayWorking();
 void arrayExploit();
 
+void integerVulnerability(unsigned short deposit);
+void integerWorking();
+void integerExploit();
+
 
 int main()
 {
-   arrayWorking();
-   arrayExploit();
+   //arrayWorking();
+   //arrayExploit();
    //pointerWorking();
    //pointerExploit();
+   integerWorking();
+   integerExploit();
    
 
   
@@ -253,9 +259,17 @@ void heapExploit()
  * INTEGER VULNERABILTY
  * 1. There must be a security check represented by an expression. * 2. The expression must have the potential for overflow. * 3. At least one of the numbers used to compute the sentinel must be * reachable through external input. This sentinel is a variable used to make * the security decision from the first requirement.
  *********************************************************************/
-void integerVulnerability(/* feel free to add parameters */)
+void integerVulnerability(unsigned short deposit)
 {
-   //cout 
+   short balance = 100;
+   cout << "Current Balance: " << balance << endl;
+   cout << "Enter the deposit ammount: " << endl;
+   cout << deposit << endl;
+   if (deposit > 0)
+   {
+      balance += deposit;
+   }
+   cout << "New balance: " << balance << endl;   
 }
 
 /***********************************************************************
@@ -265,7 +279,7 @@ void integerVulnerability(/* feel free to add parameters */)
  **********************************************************************/
 void integerWorking()
 {
-   integerVulnerability(/* parameters with non-malicious data */);
+   integerVulnerability(246);
 }
 
 /***********************************************************************
@@ -274,7 +288,7 @@ void integerWorking()
  **********************************************************************/
 void integerExploit()
 {
-   integerVulnerability(/* parameters with malicious data */);
+   integerVulnerability(-1);
 }
 
 //ANSI-UNICODE CONVERSION
