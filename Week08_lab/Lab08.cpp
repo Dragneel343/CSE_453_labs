@@ -8,6 +8,9 @@
 ************************************************************************/
 #include <iostream>
 #include <array>
+#include <string>
+#include <cassert>
+
 using namespace std;
 void pointerVulnerability(long * array, int size);
 void pointerWorking();
@@ -21,22 +24,82 @@ void integerVulnerability(unsigned short deposit);
 void integerWorking();
 void integerExploit();
 
+void arcVulnerability(char * input);
+void arcWorking();
+void arcExploit();
+
+void stackVulnerability(char input[]);
+void stackWorking();
+void stackExploit();
+
+void heapVulnerability(int input[]);
+void heapWorking();
+void heapExploit();
+
+//add comment
 
 int main()
-{
-   //arrayWorking();
-   //arrayExploit();
-   //pointerWorking();
-   //pointerExploit();
-   integerWorking();
-   integerExploit();
-   
+{   
+   // menu
+      cout << "Select the test you want to run:\n";
+   cout << "\t1. Array Index\n";
+   cout << "\t2. Pointer Subterfuge\n";
+   cout << "\t3. ARC Injection\n";
+   cout << "\t4. Vtable Spraying\n";
+   cout << "\t5. Stack Smashing\n";
+   cout << "\t6. Heap Spraying\n";
+   cout << "\t7. Integer Overflow\n";
+   cout << "\t8. ANSI-Unicode Conversion\n";
 
-  
-  
- 
+   char choice;
+   cout << "> ";
+   cin >> choice;
+   switch (choice)
+   {
+   case 'a':
 
+      break;
+   case '1':
+      arrayWorking();
+      arrayExploit();
+      cout << "Array Index *In Development*\n";
+      break;
+   case '2':
+      pointerWorking();
+      pointerExploit();
+      cout << "Pointer Subterfuge *In Development*\n";
+      break;
+   case '3':
+      arcWorking();
+      arcExploit();
+      cout << "ARC Injection\n";
+      break;
+   case '4':
 
+      cout << "VTable Spraying *Not Implimented*\n";
+      break;
+   case '5':
+      stackWorking();
+      stackExploit();
+      cout << "Stack Smashing *Not Implimented*";
+      break;
+   case '6':
+      heapWorking();
+      heapExploit();
+      cout << "Heap Spraying *Not Implimented*";
+      break;
+   case '7':
+      integerWorking();
+      integerExploit();
+      cout << "Integer Overflow Complete?";
+      break;
+   case '8':
+
+      cout << "ANSI-Unicode Conversion *Not Implimented*";
+      break;
+   default:
+      cout << "Unrecognized command, exiting...\n";
+   }
    return 0;
 }
 
@@ -147,8 +210,12 @@ void pointerExploit()
  *  ARC VULNERABILTY
  *  1. There must be a function pointer used in the code.2. Through some vulnerability, there must be a way for user input tooverwrite the function pointer. This typically happens through a stackbuffer vulnerability.3. After the memory is overwritten, the function pointer must bedereferenced.  
  *************************************************************************/
-void arcVulnerability(/* feel free to add parameters */)
+void arcVulnerability(char * input)
 {
+   long buffer[1];
+   //void (*pointerFunction)() = input;
+   cin >> buffer[1];
+  // cout << pointerFunction() << endl;
 }
 
 /***********************************************************************
@@ -158,7 +225,8 @@ void arcVulnerability(/* feel free to add parameters */)
  **********************************************************************/
 void arcWorking()
 {
-   arcVulnerability(/* parameters with non-malicious data */);
+   cout << "Arc Injection with Exploit" << endl;
+   //arcVulnerability(safe);
 }
 
 /***********************************************************************
@@ -167,7 +235,8 @@ void arcWorking()
  **********************************************************************/
 void arcExploit()
 {
-   arcVulnerability(/* parameters with malicious data */);
+   cout << "Arc Injection with Exploit" << endl;
+   //arcVulnerability(dangerous);
 }
 
 //VTABLE SPRAYING
@@ -203,8 +272,10 @@ void vtableExploit()
  * STACK VULNERABILTY
  * 1. There must be a buffer (such as an array) on the stack. * 2. The buffer must be reachable from an external input. * 3. The mechanism to fill the buffer from the external input must not * correctly check for the buffer size. * 4. A buffer overrun (extend beyond the intended limits of the array) must * extend to the return address on the stack.
  *********************************************************************/
-void stackVulnerability(/* feel free to add parameters */)
+void stackVulnerability(char input[])
 {
+   char text[8]; 
+   strcpy_s(text, sizeof(input), input);
 }
 
 /***********************************************************************
@@ -212,18 +283,22 @@ void stackVulnerability(/* feel free to add parameters */)
  *  Call stackVulnerability() in a way that does
  *  not yield unexpected behavior
  **********************************************************************/
-void Working()
+void stackWorking()
 {
-   stackVulnerability(/* parameters with non-malicious data */);
+   cout << "Stack Smashing Working" << endl;
+   char array[8] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
+   stackVulnerability(array);
 }
 
 /***********************************************************************
  * STACK EXPLOIT
  * 1. The attacker must provide more data into the outwardly facing buffer * than the buffer is designed to hold. * 2. The attacker must know where the return address pointer resides on the * stack. This should be just beyond the end of the buffer. * 3. The attacker must insert machine language instructions in the buffer. * This may occur before, after, or even around the return address pointer. * The machine language could be already compiled code in the program. * 4. The attacker must overwrite the return address. The old value, directing * the flow of the program after the function is returned, must be changed * from the calling function to the provided machine language in step 3.
  **********************************************************************/
-void Exploit()
+void stackExploit()
 {
-   stackVulnerability(/* parameters with malicious data */);
+   cout << "Stack Smahing Exploit" << endl;
+   char array[] = { 1, 2, 3, 4, 5, 6, 7, 8};
+   stackVulnerability(array);
 }
 
 //HEAP SPRAYING
@@ -231,8 +306,11 @@ void Exploit()
  * HEAP VULNERABILTY
  * 1. There must be two adjacent heap buffers. * 2. The first buffer must be reachable through external input. * 3. The mechanism to fill the buffer from the external input must not * correctly check for the buffer size. * 4. The second buffer must be released before the first. * 5. The first buffer must be overrun (extend beyond the intended limits of * the array).
  *************************************************************************/
-void heapVulnerability(/* feel free to add parameters */)
+void heapVulnerability(int input[])
 {
+   int * buffer1 = new int[4];  
+   buffer1 = input;
+   delete [] buffer1;
 }
 
 /***********************************************************************
@@ -242,7 +320,9 @@ void heapVulnerability(/* feel free to add parameters */)
  **********************************************************************/
 void heapWorking()
 {
-   heapVulnerability(/* parameters with non-malicious data */);
+   cout << "Heap Working" << endl;
+   int input[4] = { 1, 2, 3, 4 };   
+   heapVulnerability(input);
 }
 
 /***********************************************************************
@@ -251,7 +331,9 @@ void heapWorking()
  **********************************************************************/
 void heapExploit()
 {
-   heapVulnerability(/* parameters with malicious data */);
+   cout << "Heap Exploit" << endl;
+   int input1[8] = { 1, 2, 3, 4, 5, 6 ,7 ,8 };  
+   heapVulnerability(input1);
 }
 
 //INTEGER OVERFLOW
