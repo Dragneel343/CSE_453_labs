@@ -41,8 +41,8 @@ public:
     ************************************************************/
    UI()
    {
-      plaintext = "";
-      password = "";
+      plaintext = "Love everyone~Treat them kindly, too.";
+      password = "P@55w0rd!~";
 
       // load the ciphers into the cipher vector
       cipher.push_back(new Example);  // add the example Cipher

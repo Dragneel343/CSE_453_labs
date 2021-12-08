@@ -6,16 +6,19 @@
 #ifndef CIPHER01_H
 #define CIPHER01_H
 
+#include<iostream>
+using namespace std;
+
 /********************************************************************
  * CLASS
  *******************************************************************/
 class Cipher01 : public Cipher
 {
 public:
-   virtual std::string getPseudoAuth()  { return "pseudocode author"; }
-   virtual std::string getCipherName()  { return "cipher name"; }
-   virtual std::string getEncryptAuth() { return "encrypt author"; }
-   virtual std::string getDecryptAuth() { return "decrypt author"; }
+   virtual std::string getPseudoAuth()  { return "Andrew Nerdin"; }
+   virtual std::string getCipherName()  { return "Hill Cipher"; }
+   virtual std::string getEncryptAuth() { return "Andrew Nerdin"; }
+   virtual std::string getDecryptAuth() { return "Andrew Nerdin"; }
 
    /***********************************************************
     * GET CIPHER CITATION
@@ -23,7 +26,11 @@ public:
     ***********************************************************/
    virtual std::string getCipherCitation()
    {
-      return std::string("citation");
+      std::string s;
+      s += "EDUCBA.com (2020), ";
+      s += "\"Network Secuirty Tutorial - Types of Cipher\', \n   retrieved: ";
+      s += "https://www.educba.com/types-of-cipher/";
+      return s;
    }
    
    /**********************************************************
