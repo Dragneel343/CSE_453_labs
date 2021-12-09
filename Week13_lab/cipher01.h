@@ -53,7 +53,7 @@ public:
 
    /**********************************************************
     * ENCRYPT
-    * TODO: ADD description
+    * Encrypts the message
     **********************************************************/
    virtual std::string encrypt(const std::string & plainText, 
                                const std::string & password)
@@ -65,7 +65,7 @@ public:
 
    /**********************************************************
     * DECRYPT
-    * TODO: ADD description
+    * Decrypts the message
     **********************************************************/
    virtual std::string decrypt(const std::string & cipherText, 
                                const std::string & password)
@@ -74,6 +74,23 @@ public:
       // TODO - Add your code here
       return plainText;
    }
+private:
+   /**********************************************************
+    * GET KEY MATRIX
+    * nerates the key matrix for the key string
+    **********************************************************/
+   void getKeyMatrix(string key, int keyMatrix[][3])
+   {
+      int k = 0;
+      for (int i = 0; i < 3; i++)
+      {
+         for (int j = 0; j < 3; j++)
+         {
+               keyMatrix[i][j] = (key[k]) % 65;
+               k++;
+         }
+      }
+   }     
 };
 
 #endif // CIPHER01_H
