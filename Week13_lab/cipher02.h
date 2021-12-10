@@ -47,7 +47,7 @@ public:
       str += " newAlphabet <- cipherAlphabet(password)\n";
       str += "    For i all values of plainText\n";
       str += "       if plainText[i] >= ! and plainText[i] <= ~\n";
-      str += "          pos = plainText[i] -33\n";
+      str += "          pos = plainText[i] - 33\n";
       str += "          cipherText += newAlphabet[pos]\n";
       str += "       Else\n";
       str += "          cipherText += plainText[i]\n";
