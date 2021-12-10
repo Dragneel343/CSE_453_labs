@@ -16,7 +16,7 @@ class Cipher01 : public Cipher
 {
 public:
    virtual std::string getPseudoAuth()  { return "Andrew Nerdin"; }
-   virtual std::string getCipherName()  { return "Hill Cipher"; }
+   virtual std::string getCipherName()  { return "Vigenère Cipher"; }
    virtual std::string getEncryptAuth() { return "Andrew Nerdin"; }
    virtual std::string getDecryptAuth() { return "Andrew Nerdin"; }
 
@@ -27,9 +27,9 @@ public:
    virtual std::string getCipherCitation()
    {
       std::string s;
-      s += "EDUCBA.com (2020), ";
-      s += "\"Network Secuirty Tutorial - Types of Cipher\', \n   retrieved: ";
-      s += "https://www.educba.com/types-of-cipher/";
+      s += "GeeksforGeeks.com (2020), ";
+      s += "\"Vigenère Cipher\', \n   retrieved: ";
+      s += "https://www.geeksforgeeks.org/vigenere-cipher/?ref=lbp";
       return s;
    }
    
@@ -41,12 +41,34 @@ public:
    {
       std::string str;
 
-      // TODO: please format your pseudocode
       // The encrypt pseudocode
-      str =  "insert the encryption pseudocode\n";
+      str =  "encrypt(plainText, password)\n";
+      str += "    cipherText <- plainText\n";
+      str += "    FOR i is less than the size of plainText\n";
+      str += "    x <- (plainText[i] + password[i]) %26\n";
+      str += "    x += A\n";
+      str += "    cipherText PUSHBACK\n";
+      str += "    RETURN cipherText\n";
 
       // The decrypt pseudocode
-      str += "insert the decryption pseudocode\n";
+      str += "decrypt(cipherText, password)\n";
+      str += "    plainText <- cipherText\n";
+      str += "    FOR i is less than the size of cipherText\n";
+      str += "    x <- (cipherText[i] + password[i]) %26\n";
+      str += "    x += A\n";
+      str += "    plainText PUSHBACK\n";
+      str += "    RETURN plainText";
+
+      // The generate key pseudocode
+      str += "generateKey(plainText, password)\n";
+      str += "    x <- size of plainText\n";
+      str += "    FOR i <- 0\n";
+      str += "    IF x == i\n";
+      str += "       i = 0\n";
+      str += "    IF size of password EQUAL to size of plainText\n";
+      str += "       break\n";
+      str += "    password PUSHBACK\n";
+      str += "    RETURN password\n";
 
       return str;
    }
@@ -59,7 +81,17 @@ public:
                                const std::string & password)
    {
       std::string cipherText = plainText;
-      // TODO - Add your code here
+ 
+      for (int i = 0; i < plainText.size(); i++)
+      {
+         // converting in range 0-25
+         char x = (plainText[i] + password[i]) %26;
+   
+         // convert into alphabets(ASCII)
+         x += 'A';
+   
+         cipherText.push_back(x);
+      }
       return cipherText;
    }
 
@@ -71,26 +103,39 @@ public:
                                const std::string & password)
    {
       std::string plainText = cipherText;
-      // TODO - Add your code here
+
+      for (int i = 0 ; i < cipherText.size(); i++)
+    {
+        // converting in range 0-25
+        char x = (cipherText[i] - key[i] + 26) %26;
+ 
+        // convert into alphabets(ASCII)
+        x += 'A';
+        plainText.push_back(x);
+    }
       return plainText;
    }
-private:
    /**********************************************************
-    * GET KEY MATRIX
-    * nerates the key matrix for the key string
+    * GENERATE KEY
+    * generates the key in
+    * a cyclic manner until it's length isn't
+    * equal to the length of original text
     **********************************************************/
-   void getKeyMatrix(string key, int keyMatrix[][3])
+   string generateKey(const std::string & plainText, 
+                      const std::string & password)
    {
-      int k = 0;
-      for (int i = 0; i < 3; i++)
+      int x = plainText.size();
+   
+      for (int i = 0; ; i++)
       {
-         for (int j = 0; j < 3; j++)
-         {
-               keyMatrix[i][j] = (key[k]) % 65;
-               k++;
-         }
+         if (x == i)
+               i = 0;
+         if (password.size() == plainText.size())
+               break;
+         password.push_back(password[i]);
       }
-   }     
+      return password;
+   } 
 };
 
 #endif // CIPHER01_H
