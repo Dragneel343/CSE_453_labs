@@ -74,13 +74,35 @@ public:
    }
 
    /**********************************************************
+    * GENERATE KEY
+    * This function generates the key in
+    * a cyclic manner until it's length isn't
+    * equal to the length of original text
+    **********************************************************/
+   string generateKey(const std::string & plainText, 
+                      string password)
+   {
+      int x = plainText.size();
+   
+      for (int i = 0; ; i++)
+      {
+         if (x == i)
+               i = 0;
+         if (password.size() == plainText.size())
+               break;
+         password.push_back(password[i]);
+      }
+      return password;
+   }
+
+   /**********************************************************
     * ENCRYPT
     * Encrypts the message
     **********************************************************/
    virtual std::string encrypt(const std::string & plainText, 
                                const std::string & password)
    {
-      std::string cipherText = plainText;
+      string cipherText = plainText;
  
       for (int i = 0; i < plainText.size(); i++)
       {
@@ -107,34 +129,13 @@ public:
       for (int i = 0 ; i < cipherText.size(); i++)
     {
         // converting in range 0-25
-        char x = (cipherText[i] - key[i] + 26) %26;
+        char x = (cipherText[i] - password[i] + 26) %26;
  
         // convert into alphabets(ASCII)
         x += 'A';
         plainText.push_back(x);
     }
       return plainText;
-   }
-   /**********************************************************
-    * GENERATE KEY
-    * generates the key in
-    * a cyclic manner until it's length isn't
-    * equal to the length of original text
-    **********************************************************/
-   string generateKey(const std::string & plainText, 
-                      const std::string & password)
-   {
-      int x = plainText.size();
-   
-      for (int i = 0; ; i++)
-      {
-         if (x == i)
-               i = 0;
-         if (password.size() == plainText.size())
-               break;
-         password.push_back(password[i]);
-      }
-      return password;
    } 
 };
 
